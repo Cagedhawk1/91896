@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Inventory</title>
+    <style>
+        table {
+            width: 90%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #ededed;
+        }
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 50%;
+        }
+        ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        width: 60px;
+        }
+
+        li a {
+        display: block;
+        }
+    </style>
+    <img src="https://southey.co.nz/images/web_header.png" alt="top pic">
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Home</a>
+        <a href="/contents">Our Stock</a>
+    </div>
+
+    <form method="GET" action="/contents">
+        <input type="text" name="query">
+        <button type="submit">Search</button>
+    </form>
+
+    <form method="GET" action="/contents">
+        <button type="submit">-- Back --</button>
+    </form>
+    
+    <h1>Car Inventory</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Images</th>
+                <th>Manufacturer</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Body Style</th>
+                <th>Price</th>
+                <th>Distance</th>
+                <th>Stock ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in results %}
+            <tr>
+                <td><img src="{{ item[7] }}" alt="Car Image" style="width:400px;height:auto;"></td> <!-- image -->
+                <td>{{ item[1] }}</td> <!-- manufacturer name -->
+                <td>{{ item[2] }}</td> <!-- model name -->
+                <td>{{ item[3] }}</td> <!-- year -->
+                <td>{{ item[4] }}</td> <!-- body style -->
+                <td>{{ item[5] }}</td> <!-- car price -->
+                <td>{{ item[6] }}</td> <!-- distance -->
+                <td>{{ item[0] }}</td> <!-- stock ID -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+<footer>
+    <img src="https://southey.co.nz/images/yardfade.png" alt="bottom pic" class="center">
+    Southey's Auto World Ltd/Southey Honda & Nissan. - Cnr Park and Dixon Street, Masterton, New Zealand.
+    Phone: (06) 378 2543 or Email Direct
+    <h2>© Southey's Auto World Ltd/Southey Honda & Nissan.</h2>
+</footer>
+</html>
