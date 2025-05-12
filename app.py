@@ -1,4 +1,5 @@
 from flask import Flask,g,render_template, request
+from models import Car_stock
 import sqlite3 
 
 app = Flask(__name__)
