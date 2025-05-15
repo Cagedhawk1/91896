@@ -1,6 +1,6 @@
 from flask import Flask,g,render_template, request
+from models import Car_stock
 import sqlite3 
-
 
 app = Flask(__name__)
 
@@ -22,11 +22,6 @@ def close_connection(exception):
 @app.route("/")
 def home():
     return render_template("home.html")
-
-@app.route("/AUTOTRADER")
-def home():
-    return render_template("autotrader.html")
-
 
 
 @app.route("/contents")
