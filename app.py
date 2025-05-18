@@ -1,18 +1,13 @@
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import sessionmaker
 
+from models import User, engine
 
-db_url = "sqlite:///database.db"
+Session = sessionmaker(bind=engine)
 
-engine = create_engine(db_url)
+session = Session()
 
-Base = declarative_base()
+user = User(name = "John Doe", age=30)
 
-class User(Base):
-    __tablename__ = "users"
+session.add(user)   
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    age = Column(Integer)
-
-Base.metadata.create_all(engine)
+session.commit()
