@@ -21,4 +21,10 @@ session.commit()
 # Access car data
 cars = session.query(Car).all()
 
-print(cars)
+# Index position
+cars = cars[0]
+
+print(cars.id)
+print(cars.car_name)
+print(cars.car_price)
+print(cars.car_year)
