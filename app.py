@@ -22,12 +22,12 @@ session.commit()
 cars = session.query(Car).all()
 
 # Index position
-cars = cars[0]
+#cars = cars[0]
 
-print(cars.id)
-print(cars.car_name)
-print(cars.car_price)
-print(cars.car_year)
+#print(cars.id)
+#print(cars.car_name)
+#print(cars.car_price)
+#print(cars.car_year)
 
 # Accessing all elements (Everything in the database)
 for car in cars:
