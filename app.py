@@ -6,8 +6,8 @@ Session = sessionmaker(bind=engine)
 
 session = Session()
 
-user = User(name = "John Doe", age=30)
+car = User(car_name = "Skyline", car_price = "50000", car_year=2019)
 
-session.add(user)   
+session.add(car)   
 
 session.commit()

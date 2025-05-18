@@ -8,11 +8,12 @@ engine = create_engine(db_url)
 
 Base = declarative_base()
 
-class User(Base):
-    __tablename__ = "users"
+class Car(Base):
+    __tablename__ = "cars"
 
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    age = Column(Integer)
+    car_name = Column(String)
+    car_price = Column(Integer)
+    car_year = Column(Integer)
 
 Base.metadata.create_all(engine)
