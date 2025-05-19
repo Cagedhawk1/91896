@@ -51,6 +51,17 @@ class Car_stock(Base):
     model = relationship('Car_model')
     image = relationship('car_images')
 
+    def __repr__(self):
+        return f'<Car_stock {self.stock_id}>'
+    
+class car_images(Base):
+    __tablename__ = 'car_images'
+    image_id = Column(Integer, primary_key=True)
+    image = Column(String)  
+    image_car = Column(String(100))
+
+    def __repr__(self):
+        return f'<car_images {self.image_id}>'
 
 
 Base.metadata.create_all(engine)
