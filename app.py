@@ -16,19 +16,30 @@ car3 = Car(car_name = "Supra", car_price = "60000", car_year=2021)
 # session.add_all([car])
 
 # Commit the session to save the changes to the database
-session.commit()
 
 # Access car data
-cars = session.query(Car).filter_by(id=1).all()
+cars = session.query(Car).all()
 
 # Index position
 #cars = cars[0]
 
 #print(cars.id)
-print(cars.car_name)
+#print(cars.car_name)
 #print(cars.car_price)
 #print(cars.car_year)
 
 # Accessing all elements (Everything in the database)
 for car in cars:
     print(f"Car ID: {car.id}, Car Name: {car.car_name}, Car Price: {car.car_price}, Car Year: {car.car_year}")
+
+
+# Update a car
+car_name = "Not Skyline"
+
+
+# delete a car
+# session.delete(car)
+
+
+# Commit the session to save the changes to the database
+session.commit()
