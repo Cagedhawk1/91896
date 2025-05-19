@@ -35,4 +35,16 @@ class Car_model(Base):
     def __repr__(self):
         return f'<Car_model {self.model_name}>'
 
+class Car_stock(Base):
+    __tablename__ = 'car_stock'
+    stock_id = Column(Integer, primary_key=True)
+    manufacturer_id = Column(Integer, ForeignKey('car_manufacturer.manufacturer_id'), nullable=False)
+    bodystyle_id = Column(Integer, ForeignKey('car_bodystyle.bodystyle_id'), nullable=False)
+    model_id = Column(Integer, ForeignKey('car_model.model_id'), nullable=False)
+    year = Column(Date)
+    car_price = Column(Integer)
+    distance = Column(Integer)
+    image_id = Column(Integer, ForeignKey('car_images.image_id'))
+
+
 Base.metadata.create_all(engine)
