@@ -1,6 +1,6 @@
 from sqlalchemy.orm import sessionmaker
 
-from models import Car, engine
+from models import Car_bodystyle, Car_manufacturer, Car_model, Car_stock, car_images, engine
 
 Session = sessionmaker(bind=engine)
 
@@ -43,3 +43,10 @@ car_name = "Not Skyline"
 
 # Commit the session to save the changes to the database
 session.commit()
+
+
+from models import Car_bodystyle, Car_manufacturer, Car_model, Car_stock, car_images
+
+with engine.connect() as connection:
+    result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    print(result.fetchall())
