@@ -22,4 +22,17 @@ class Car_manufacturer(Base):
     def __repr__(self):
         return f'<Car_manufacturer {self.manufacturer_name}>'
 
+class Car_model(Base):
+    __tablename__ = 'car_model'
+    model_id = Column(Integer, primary_key=True)
+    model_name = Column(String(100), nullable=False)
+    model_horsepower = Column(Integer)
+    model_torque = Column(Integer)
+    eco_rating = Column(Integer)
+    safety_rating = Column(Integer)
+    model_seats = Column(Integer)
+
+    def __repr__(self):
+        return f'<Car_model {self.model_name}>'
+
 Base.metadata.create_all(engine)
