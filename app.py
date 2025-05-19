@@ -19,16 +19,16 @@ car3 = Car(car_name = "Supra", car_price = "60000", car_year=2021)
 session.commit()
 
 # Access car data
-cars = session.query(Car).all()
+cars = session.query(Car).filter_by(id=1).all()
 
 # Index position
 #cars = cars[0]
 
-#print(cars.id)
-#print(cars.car_name)
-#print(cars.car_price)
-#print(cars.car_year)
+print(cars.id)
+print(cars.car_name)
+print(cars.car_price)
+print(cars.car_year)
 
 # Accessing all elements (Everything in the database)
-for car in cars:
-    print(f"Car ID: {car.id}, Car Name: {car.car_name}, Car Price: {car.car_price}, Car Year: {car.car_year}")
+#for car in cars:
+    #print(f"Car ID: {car.id}, Car Name: {car.car_name}, Car Price: {car.car_price}, Car Year: {car.car_year}")
