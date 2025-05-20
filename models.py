@@ -1,5 +1,5 @@
-from sqlalchemy import create_engine, Column, Integer, String, Date
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import create_engine, Column, Integer, String, Date, ForeignKey
+from sqlalchemy.orm import declarative_base, relationship
 
 db_url = "sqlite:////database.db"
 engine = create_engine(db_url)
