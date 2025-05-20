@@ -18,7 +18,7 @@ car3 = Car(car_name = "Supra", car_price = "60000", car_year=2021)
 # Commit the session to save the changes to the database
 
 # Access car data
-cars = session.query(Car).all()
+cars = session.query(Car_stock).all()
 
 # Index position
 #cars = cars[0]
@@ -29,24 +29,18 @@ cars = session.query(Car).all()
 #print(cars.car_year)
 
 # Accessing all elements (Everything in the database)
-for car in cars:
-    print(f"Car ID: {car.id}, Car Name: {car.car_name}, Car Price: {car.car_price}, Car Year: {car.car_year}")
-
+#for car in cars:
+    #print(f"Car ID: {car.id}, Car Name: {car.car_name}, Car Price: {car.car_price}, Car Year: {car.car_year}")
 
 # Update a car
-car_name = "Not Skyline"
-
+#car_name = "Not Skyline"
 
 # delete a car
 # session.delete(car)
 
-
 # Commit the session to save the changes to the database
-session.commit()
+#session.commit()
 
-
-from models import Car_bodystyle, Car_manufacturer, Car_model, Car_stock, car_images
-
-with engine.connect() as connection:
-    result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    print(result.fetchall())
+#with engine.connect() as connection:
+    #result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    #print(result.fetchall())
