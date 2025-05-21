@@ -27,6 +27,8 @@ if __name__ == '__main__':
     app = create_app()
     app.run(debug=True)
 
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/mail/Documents/database.db'
+
 # Add a single instance of the Car class to the session (Uncoment line below to add select cars)
 # session.add(car3)   
 # Commits all the session changes (Uncoment line below to add all cars)
