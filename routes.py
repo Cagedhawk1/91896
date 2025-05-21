@@ -36,7 +36,7 @@ def register_routes(app, db):
             return "Sample data added! <br><a href='/'>Back to home</a>"
 
     @app.route('/add-6-cars')
-    def add_10_cars():
+    def add_6_cars():
         with app.app_context():
             # Check if manufacturers already exist
             toyota = Car_manufacturer.query.filter_by(manufacturer_name="Toyota").first()
