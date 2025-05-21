@@ -44,7 +44,6 @@ class Car_stock(Base):
     car_price = Column(Integer)
     distance = Column(Integer)
     image_id = Column(Integer, ForeignKey('car_images.image_id'))
-
     manufacturer = relationship('Car_manufacturer')
     bodystyle = relationship('Car_bodystyle')
     model = relationship('Car_model')
