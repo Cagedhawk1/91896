@@ -8,7 +8,7 @@ migrate = Migrate()
 
 def create_app():
     app = Flask(__name__, template_folder='templates')
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/mail/Documents/database.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
@@ -27,7 +27,6 @@ if __name__ == '__main__':
     app = create_app()
     app.run(debug=True)
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/mail/Documents/database.db'
 
 # Add a single instance of the Car class to the session (Uncoment line below to add select cars)
 # session.add(car3)   
