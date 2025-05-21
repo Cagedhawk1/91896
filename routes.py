@@ -36,7 +36,11 @@ def register_routes(app, db):
             return "Sample data added! <br><a href='/'>Back to home</a>"
 
     @app.route('/add-6-cars')
+<<<<<<< HEAD
     def add_6_cars():
+=======
+    def add_10_cars():
+>>>>>>> 1f83b85 (1.19.4 ADDED THE CARS)
         with app.app_context():
             # Check if manufacturers already exist
             toyota = Car_manufacturer.query.filter_by(manufacturer_name="Toyota").first()
@@ -130,6 +134,7 @@ def register_routes(app, db):
                 }
             ]
             # Add models, images, and stock to the database
+<<<<<<< HEAD
             for car in cars:
                 db.session.add(car["model"])
                 db.session.add(car["image"])
@@ -147,3 +152,22 @@ def register_routes(app, db):
 
             db.session.commit()
             return "6 sample cars <br><a href='/'>Back to home</a>"
+=======
+                for car in cars:
+                    db.session.add(car["model"])
+                    db.session.add(car["image"])
+                    db.session.commit()  # Commit to get IDs for foreign keys
+                    stock = Car_stock(
+                        manufacturer=car["manufacturer"],
+                        bodystyle=car["bodystyle"],
+                        model=car["model"],
+                        year=car["stock"]["year"],
+                        car_price=car["stock"]["car_price"],
+                        distance=car["stock"]["distance"],
+                        image=car["image"]
+                    )
+                    db.session.add(stock)
+
+                db.session.commit()
+                return "6 sample cars <br><a href='/'>Back to home</a>"
+>>>>>>> 1f83b85 (1.19.4 ADDED THE CARS)
