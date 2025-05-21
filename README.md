@@ -1,4 +1,6 @@
-STILL IN PROGRESS
+***STILL IN PROGRESS***
+
+
 Getting started
 Preliminaries
 Enable scripts to run on your machine
