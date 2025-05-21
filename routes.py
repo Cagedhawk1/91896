@@ -130,20 +130,20 @@ def register_routes(app, db):
                 }
             ]
             # Add models, images, and stock to the database
-                for car in cars:
-                    db.session.add(car["model"])
-                    db.session.add(car["image"])
-                    db.session.commit()  # Commit to get IDs for foreign keys
-                    stock = Car_stock(
-                        manufacturer=car["manufacturer"],
-                        bodystyle=car["bodystyle"],
-                        model=car["model"],
-                        year=car["stock"]["year"],
-                        car_price=car["stock"]["car_price"],
-                        distance=car["stock"]["distance"],
-                        image=car["image"]
-                    )
-                    db.session.add(stock)
+            for car in cars:
+                db.session.add(car["model"])
+                db.session.add(car["image"])
+                db.session.commit()  # Commit to get IDs for foreign keys
+                stock = Car_stock(
+                    manufacturer=car["manufacturer"],
+                    bodystyle=car["bodystyle"],
+                    model=car["model"],
+                    year=car["stock"]["year"],
+                    car_price=car["stock"]["car_price"],
+                    distance=car["stock"]["distance"],
+                    image=car["image"]
+                )
+                db.session.add(stock)
 
-                db.session.commit()
-                return "6 sample cars <br><a href='/'>Back to home</a>"
+            db.session.commit()
+            return "6 sample cars <br><a href='/'>Back to home</a>"
