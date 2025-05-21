@@ -8,7 +8,7 @@ def register_routes(app, db):
         return f"Found {len(manufacturers)} manufacturers in the database. <br><a href='/add-sample'>Add sample data</a>"
     @app.route('/add-sample')
     def add_sample():
-        # Add sample data to the database
+        # Add data to the database
         with app.app_context():
             manufacturer = Car_manufacturer(manufacturer_name="Toyota")
             bodystyle = Car_bodystyle(bodystyle_name="Sedan")

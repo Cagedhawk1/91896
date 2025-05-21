@@ -1,11 +1,31 @@
-from sqlalchemy.orm import sessionmaker
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
-from models import Car_bodystyle, Car_manufacturer, Car_model, Car_stock, car_images, engine
+# Start SQLAlchemy and Migrate
+db = SQLAlchemy()
+migrate = Migrate()
 
-Session = sessionmaker(bind=engine)
+def create_app():
+    app = Flask(__name__, template_folder='templates')
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.init_app(app)
 
-session = Session()
+    # Import models
+    from models import Car_bodystyle, Car_manufacturer, Car_model, Car_stock, car_images
 
+    # Import routes
+    from routes import register_routes
+    register_routes(app, db)
+
+    # Start migrations
+    migrate.init_app(app, db)
+    return app
+
+if __name__ == '__main__':
+    app = create_app()
+    app.run(debug=True)
 
 # Add a single instance of the Car class to the session (Uncoment line below to add select cars)
 # session.add(car3)   
