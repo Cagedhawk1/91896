@@ -1,4 +1,7 @@
 from models import Car_manufacturer, Car_bodystyle, Car_model, Car_stock, car_images
+from datetime import datetime
+from flask import render_template
+
 
 def register_routes(app, db):
     @app.route('/')
@@ -6,6 +9,27 @@ def register_routes(app, db):
         # Display the number of manufacturers in the database
         manufacturers = Car_manufacturer.query.all()
         return f"Found {len(manufacturers)} manufacturers in the database. <br><a href='/add-sample'>Add sample data</a> <br><a href='/add-10-cars'>Add 10 sample cars</a>"
+    
+
+    @app.route('/cars')
+    def cars():
+        # get all car with info from the database
+        cars = (
+            db.session.query(Car_stock)
+            .join(Car_model, Car_stock.model_id == Car_model.model_id)
+            .join(Car_manufacturer, Car_stock.manufacturer_id == Car_manufacturer.manufacturer_id)
+            .join(Car_bodystyle, Car_stock.bodystyle_id == Car_bodystyle.bodystyle_id)
+            .join(car_images, Car_stock.image_id == car_images.image_id)
+            .all()
+        )
+
+
+        if not cars:
+            return "No cars found in the database."
+        
+
+        return render_template('cars.html', cars=cars)
+    
 
     @app.route('/add-sample')
     def add_sample():
@@ -36,11 +60,7 @@ def register_routes(app, db):
             return "Sample data added! <br><a href='/'>Back to home</a>"
 
     @app.route('/add-6-cars')
-<<<<<<< HEAD
     def add_6_cars():
-=======
-    def add_10_cars():
->>>>>>> 1f83b85 (1.19.4 ADDED THE CARS)
         with app.app_context():
             # Check if manufacturers already exist
             toyota = Car_manufacturer.query.filter_by(manufacturer_name="Toyota").first()
@@ -73,101 +93,150 @@ def register_routes(app, db):
             db.session.commit()
             
             
-            cars = [
+            cars_data = [
                 # Toyota Cars
                 {
-                    "model": Car_model(
-                        model_name="Corolla",
-                        model_horsepower=140,
-                        model_torque=126,
-                        eco_rating=9,
-                        safety_rating=8,
-                        model_seats=5
-                    ),
+                    "model_name": "Corolla",
+                    "horsepower": 139,
+                    "torque": 126,
+                    "eco_rating": 8,
+                    "safety_rating": 9,
+                    "seats": 5,
                     "manufacturer": toyota,
                     "bodystyle": sedan,
-                    "image": car_images(image="corolla_image.jpg", image_car="Corolla_2021"),
-                    "stock": {
-                        "year": "2021-03-15",
-                        "car_price": 22000,
-                        "distance": 15000
-                    }
+                    "year": "2021-01-01",
+                    "car_price": 20000,
+                    "distance": 15000,
+                    "image_name": "corolla_image.jpg",
+                
                 },
                 {
-                    "model": Car_model(
-                        model_name="RAV4",
-                        model_horsepower=203,
-                        model_torque=184,
-                        eco_rating=7,
-                        safety_rating=9,
-                        model_seats=5
-                    ),
-                },
-                # Honda Cars
-                {
-                    "model": Car_model(
-                        model_name="Civic",
-                        model_horsepower=158,
-                        model_torque=138,
-                        eco_rating=8,
-                        safety_rating=9,
-                        model_seats=5
-                    ),
-                    "manufacturer": honda,
+                    "model_name": "Corolla",
+                    "horsepower": 139,
+                    "torque": 126,
+                    "eco_rating": 8,
+                    "safety_rating": 9,
+                    "seats": 5,
+                    "manufacturer": toyota,
                     "bodystyle": sedan,
-                    "image": car_images(image="civic_image.jpg", image_car="Civic_2022"),
-                    "stock": {
-                        "year": "2022-04-25",
-                        "car_price": 23000,
-                        "distance": 10000
-                    }
+                    "year": "2021-01-01",
+                    "car_price": 20000,
+                    "distance": 15000,
+                    "image_name": "corolla_image.jpg",
+                
                 },
                 {
-                    "model": Car_model(
-                        model_name="CR-V",
-                        model_horsepower=190,
-                        model_torque=179,
-                        eco_rating=7,
-                        safety_rating=9,
-                        model_seats=5
-                    ),
-                }
+                    "model_name": "Corolla",
+                    "horsepower": 139,
+                    "torque": 126,
+                    "eco_rating": 8,
+                    "safety_rating": 9,
+                    "seats": 5,
+                    "manufacturer": toyota,
+                    "bodystyle": sedan,
+                    "year": "2021-01-01",
+                    "car_price": 20000,
+                    "distance": 15000,
+                    "image_name": "corolla_image.jpg",
+                
+                },
+                {
+                    "model_name": "Corolla",
+                    "horsepower": 139,
+                    "torque": 126,
+                    "eco_rating": 8,
+                    "safety_rating": 9,
+                    "seats": 5,
+                    "manufacturer": toyota,
+                    "bodystyle": sedan,
+                    "year": "2021-01-01",
+                    "car_price": 20000,
+                    "distance": 15000,
+                    "image_name": "corolla_image.jpg",
+                
+                },
+                {
+                    "model_name": "Corolla",
+                    "horsepower": 139,
+                    "torque": 126,
+                    "eco_rating": 8,
+                    "safety_rating": 9,
+                    "seats": 5,
+                    "manufacturer": toyota,
+                    "bodystyle": sedan,
+                    "year": "2021-01-01",
+                    "car_price": 20000,
+                    "distance": 15000,
+                    "image_name": "corolla_image.jpg",
+                
+                },
+                {
+                    "model_name": "Corolla",
+                    "horsepower": 139,
+                    "torque": 126,
+                    "eco_rating": 8,
+                    "safety_rating": 9,
+                    "seats": 5,
+                    "manufacturer": toyota,
+                    "bodystyle": sedan,
+                    "year": "2021-01-01",
+                    "car_price": 20000,
+                    "distance": 15000,
+                    "image_name": "corolla_image.jpg",
+                
+                },
+                {
+                    "model_name": "Corolla",
+                    "horsepower": 139,
+                    "torque": 126,
+                    "eco_rating": 8,
+                    "safety_rating": 9,
+                    "seats": 5,
+                    "manufacturer": toyota,
+                    "bodystyle": sedan,
+                    "year": "2021-01-01",
+                    "car_price": 20000,
+                    "distance": 15000,
+                    "image_name": "corolla_image.jpg",
+                
+                },
             ]
-            # Add models, images, and stock to the database
-<<<<<<< HEAD
-            for car in cars:
-                db.session.add(car["model"])
-                db.session.add(car["image"])
-                db.session.commit()  # Commit to get IDs for foreign keys
-                stock = Car_stock(
-                    manufacturer=car["manufacturer"],
-                    bodystyle=car["bodystyle"],
-                    model=car["model"],
-                    year=car["stock"]["year"],
-                    car_price=car["stock"]["car_price"],
-                    distance=car["stock"]["distance"],
-                    image=car["image"]
+
+
+            # Add all data to the database	
+            for car_data in cars_data:
+                # create model
+                model = Car_model(
+                    model_name=car_data["model_name"],
+                    model_horsepower=car_data["horsepower"],
+                    model_torque=car_data["torque"],
+                    eco_rating=car_data["eco_rating"],
+                    safety_rating=car_data["safety_rating"],
+                    model_seats=car_data["seats"]
                 )
-                db.session.add(stock)
+
+                # Create image
+                image = car_images(
+                    image=f"{car_data['image_name']}.jpg",
+                    image_car=car_data["image_name"]
+                )
+                
+                db.session.add(model)
+                db.session.add(image)
+                db.session.commit()  # Commit to get IDs for foreign keys
+
+
+                stock = Car_stock(
+                    manufacturer=car_data["manufacturer"],
+                    bodystyle=car_data["bodystyle"],
+                    model=model,
+                    year=car_data["year"],
+                    car_price=car_data["price"],
+                    distance=car_data["distance"],
+                    image=image
+                )
+
+                db.session.add(stock)e
 
             db.session.commit()
             return "6 sample cars <br><a href='/'>Back to home</a>"
-=======
-                for car in cars:
-                    db.session.add(car["model"])
-                    db.session.add(car["image"])
-                    db.session.commit()  # Commit to get IDs for foreign keys
-                    stock = Car_stock(
-                        manufacturer=car["manufacturer"],
-                        bodystyle=car["bodystyle"],
-                        model=car["model"],
-                        year=car["stock"]["year"],
-                        car_price=car["stock"]["car_price"],
-                        distance=car["stock"]["distance"],
-                        image=car["image"]
-                    )
-                    db.session.add(stock)
-
-                db.session.commit()
-                return "6 sample cars <br><a href='/'>Back to home</a>"
->>>>>>> 1f83b85 (1.19.4 ADDED THE CARS)
