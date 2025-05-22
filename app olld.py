@@ -23,11 +23,6 @@ def close_connection(exception):
 def home():
     return render_template("home.html")
 
-@app.route("/AUTOTRADER")
-def home():
-    return render_template("autotrader.html")
-
-
 
 @app.route("/contents")
 def contents():
