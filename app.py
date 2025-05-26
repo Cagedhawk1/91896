@@ -33,7 +33,33 @@ def contents():
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
     return render_template("contents.html", db=db)
-                                                                          
+
+                     @app.route('/cars')
+    def cars():
+
+        #with Session(engine) as session:
+        # query for ``User`` objects
+        #statement = select(Car_stock).filter_by(id="ed")
+
+        # list of ``User`` objects
+        #Car_stock_obj = session.scalars(statement).all()
+        # get all car with info from the database
+        cars = (
+            db.session.query(Car_stock)
+            .join(Car_model, Car_stock.model_id == Car_model.model_id)
+            .join(Car_manufacturer, Car_stock.manufacturer_id == Car_manufacturer.manufacturer_id)
+            .join(Car_bodystyle, Car_stock.bodystyle_id == Car_bodystyle.bodystyle_id)
+            .join(car_images, Car_stock.image_id == car_images.image_id)
+            .all()
+        )
+
+
+        if not cars:
+            return "No cars found in the database."
+        
+
+        return render_template('cars.html', cars=cars)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
