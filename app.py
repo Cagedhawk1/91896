@@ -1,5 +1,5 @@
-from flask import Flask,g,render_template, request, create_engine
-from models import db
+from flask import Flask,g,render_template, request
+from models import db, create_engine
 from routes import register_routes
 import sqlite3 
 
