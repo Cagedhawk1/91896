@@ -1,7 +1,8 @@
 from flask import Flask,g,render_template, request
-from models import db, create_engine
+from models import db
 from routes import register_routes
-import sqlite3 
+import sqlite3
+from sqlalchemy import create_engine
 
 
 app = Flask(__name__)
