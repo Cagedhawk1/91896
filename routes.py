@@ -1,7 +1,8 @@
 from models import Car_manufacturer, Car_bodystyle, Car_model, Car_stock, car_images
 from datetime import datetime
 from flask import render_template
-
+from sqlalchemy import select, engine
+from sqlalchemy.orm import Session
 
 def register_routes(app, db):
     @app.route('/')
@@ -13,6 +14,13 @@ def register_routes(app, db):
 
     @app.route('/cars')
     def cars():
+
+        #with Session(engine) as session:
+        # query for ``User`` objects
+        #statement = select(Car_stock).filter_by(id="ed")
+
+        # list of ``User`` objects
+        #Car_stock_obj = session.scalars(statement).all()
         # get all car with info from the database
         cars = (
             db.session.query(Car_stock)
@@ -200,7 +208,7 @@ def register_routes(app, db):
                     "image_name": "corolla_image.jpg",
                 
                 },
-                
+
             ]
 
 
