@@ -200,6 +200,7 @@ def register_routes(app, db):
                     "image_name": "corolla_image.jpg",
                 
                 },
+                
             ]
 
 
@@ -236,7 +237,7 @@ def register_routes(app, db):
                     image=image
                 )
 
-                db.session.add(stock)e
+                db.session.add(stock)
 
             db.session.commit()
             return "6 sample cars <br><a href='/'>Back to home</a>"
