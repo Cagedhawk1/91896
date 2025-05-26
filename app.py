@@ -1,30 +1,66 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+from flask import Flask,g,render_template, request, create_engine
+from models import db
+from routes import register_routes
+import sqlite3 
 
-# Start SQLAlchemy and Migrate
-db = SQLAlchemy()
-migrate = Migrate()
 
-def create_app():
-    app = Flask(__name__, template_folder='templates')
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Users/mail/Documents/database.db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    db.init_app(app)
+app = Flask(__name__)
 
-    # Import models
-    from models import Car_bodystyle, Car_manufacturer, Car_model, Car_stock, car_images
+DATABASE = 'southeys_autoworld_database.db'
 
-    # Import routes
-    from routes import register_routes
-    register_routes(app, db)
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
 
-    # Start migrations
-    migrate.init_app(app, db)
-    return app
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
+
+@app.route("/")
+def home():
+    return render_template("home.html")
+
+
+@app.route("/contents")
+def contents():
+    db = get_db()
+    cursor = db.cursor()
+    query = request.args.get('query')
+
+    results = cursor.fetchall()
+    db.close()
+    return render_template("contents.html", results=results)
+                                                                          
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+    engine = create_engine('sqlite:///southeys_autoworld_database.db', echo=True)
+
+
+# Create Flask app
+app = Flask(__name__)
+
+# Configure the database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Initialize the database with the app
+db.init_app(app)
+
+# Register routes
+register_routes(app, db)
+
+# Create tables
+with app.app_context():
+    db.create_all()
 
 if __name__ == '__main__':
-    app = create_app()
     app.run(debug=True)
 
 
