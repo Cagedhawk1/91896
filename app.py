@@ -28,15 +28,11 @@ def home():
 
 
 @app.route("/contents")
-def contents():
-    db = get_db()
-    cursor = db.cursor()
-    query = request.args.get('query')
-
-    results = cursor.fetchall()
-    db.close()
-    return render_template("contents.html", results=results)
-                                                                          
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db                                                              
 
 if __name__ == "__main__":
     app.run(debug=True)
