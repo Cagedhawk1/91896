@@ -22,17 +22,6 @@ def close_connection(exception):
         db.close()
 
 
-@app.route("/")
-def home():
-    return render_template("home.html")
-
-
-@app.route("/contents")
-def contents():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return render_template("contents.html", db=db)
 
 
 
