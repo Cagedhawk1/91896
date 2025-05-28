@@ -33,7 +33,8 @@ def contents():
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
     return render_template("contents.html", db=db)
-                                                    
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

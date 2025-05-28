@@ -54,7 +54,7 @@ def register_routes(app, db):
         db.session.add_all([manufacturer, bodystyle, model, image, stock])
         db.session.commit()
         return "Sample data added! <br><a href='/'>Back to home</a>"
-
+    
     @app.route('/add-10-cars')
     def add_10_cars():
         # Check if manufacturers already exist
