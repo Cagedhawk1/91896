@@ -3,6 +3,8 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
+
+
 class Car_bodystyle(db.Model):
     __tablename__ = 'car_bodystyle'
     bodystyle_id = db.Column(db.Integer, primary_key=True)
