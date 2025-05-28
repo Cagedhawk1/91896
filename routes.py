@@ -53,7 +53,7 @@ def register_routes(app, db):
                 safety_rating=9,
                 model_seats=5
             )
-            image = car_images(image="image_data", image_car="Camry_2020")
+            image = car_images(image="image_data", image_car="Camry_2020")  
             stock = Car_stock(
                 manufacturer=manufacturer,
                 bodystyle=bodystyle,
