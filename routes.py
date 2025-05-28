@@ -65,7 +65,7 @@ def register_routes(app, db):
             )
             db.session.add_all([manufacturer, bodystyle, model, image, stock])
             db.session.commit()
-            return "Sample data added! <br><a href='/'>Back to home</a>"
+            return "Sample data added! <br><a href='/contetnts'>Back to contents</a>"
 
     @app.route('/add-6-cars')
     def add_6_cars():
@@ -248,4 +248,4 @@ def register_routes(app, db):
                 db.session.add(stock)
 
             db.session.commit()
-            return "6 sample cars <br><a href='/'>Back to home</a>"
+            return "6 sample cars <br><a href='/contents'>Back to contents</a>"
