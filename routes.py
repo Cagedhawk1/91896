@@ -3,11 +3,18 @@ from datetime import datetime
 from flask import render_template
 
 def register_routes(app, db):
-    @app.route('/')
-    def index():
+
+
+
+    @app.route("/")
+    def home():
+        return render_template("home.html")
+
+    #@app.route('/')
+    #def index():
         # Display the number of manufacturers in the database
-        manufacturers = Car_manufacturer.query.all()
-        return f"Found {len(manufacturers)} manufacturers in the database. <br><a href='/add-sample'>Add sample data</a> <br><a href='/add-10-cars'>Add 10 sample cars</a>"
+        #manufacturers = Car_manufacturer.query.all()
+        #return f"Found {len(manufacturers)} manufacturers in the database. <br><a href='/add-sample'>Add sample data</a> <br><a href='/add-10-cars'>Add 10 sample cars</a>"
 
     @app.route('/cars')
     def cars():
