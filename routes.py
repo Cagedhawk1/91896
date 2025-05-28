@@ -10,6 +10,11 @@ def register_routes(app, db):
     def home():
         return render_template("home.html")
 
+
+    @app.route("/contents")
+    def contents():
+        return render_template("contents.html", db=db)
+
     #@app.route('/')
     #def index():
         # Display the number of manufacturers in the database
