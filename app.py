@@ -59,7 +59,9 @@ with app.app_context():
 if __name__ == "__main__":
     app.run(debug=True)
 
-    engine = create_engine('sqlite:///southeys_autoworld_database.db', echo=True)
+    #engine = create_engine('sqlite:///southeys_autoworld_database.db', echo=True)
+
+    
 
 
 # Add a single instance of the Car class to the session (Uncoment line below to add select cars)
