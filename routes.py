@@ -44,29 +44,29 @@ def register_routes(app, db):
     @app.route('/add-listing')
     def add_listing():
         # Add a single sample car to the database
-        manufacturer = Car_manufacturer(manufacturer_name="Toyota")
-        bodystyle = Car_bodystyle(bodystyle_name="Sedan")
-        model = Car_model(
-            model_name="Camry",
-            model_horsepower=200,
-            model_torque=180,
-            eco_rating=8,
-            safety_rating=9,
-            model_seats=5
-        )
-        image = car_images(image="image_data", image_car="Camry_2020")
-        stock = Car_stock(
-            manufacturer=manufacturer,
-            bodystyle=bodystyle,
-            model=model,
-            year=datetime.strptime("2020-01-01", "%Y-%m-%d").date(),
-            car_price=25000,
-            distance=5000,
-            image=image
-        )
-        db.session.add_all([manufacturer, bodystyle, model, image, stock])
-        db.session.commit()
-        return "Sample data added! <br><a href='/contents'>Back to home</a>"
+        #manufacturer = Car_manufacturer(manufacturer_name=input("Manufaacturer name"))
+        #bodystyle = Car_bodystyle(bodystyle_name="Sedan")
+        #model = Car_model(
+            #model_name="Camry",
+            #model_horsepower=200,
+            #model_torque=180,
+            #eco_rating=8,
+            #safety_rating=9,
+            #model_seats=5
+        #)
+        #image = car_images(image="image_data", image_car="Camry_2020")
+        #stock = Car_stock(
+            #manufacturer=manufacturer,
+            #bodystyle=bodystyle,
+            #model=model,
+            #year=datetime.strptime("2020-01-01", "%Y-%m-%d").date(),
+            #car_price=25000,
+            #distance=5000,
+            #image=image
+        #)
+        #db.session.add_all([manufacturer, bodystyle, model, image, stock])
+        #db.session.commit()
+        return render_template("add-listing.html")
     
 
 

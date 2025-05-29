@@ -1,6 +1,9 @@
 <!DOCTYPE html> 
 <html lang="en">
 <head>
+    <div class="navbar">
+        <a href="/contents">Return</a>
+    </div>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Listing</title>
@@ -35,26 +38,34 @@
     </style>
 </head>
 <body>
-    <h1>Add Listing</h1>
-    <form method="POST" action="/add-listing" enctype="multipart/form-data">
-        <label for="manufacturer">Manufacturer:</label>
-        <input type="text" id="manufacturer" name="manufacturer" required>
-        <label for="model">Model:</label>
-        <input type="text" id="model" name="model" required>
-        <label for="year">Year:</label>
-        <input type="number" id="year" name="year" required>
-        <label for="body_style">Body Style:</label>
-        <input type="text" id="body_style" name="body_style" required>
-        <label for="price">Price:</label>
-        <input type="number" id="price" name="price" required>
-        <label for="distance">Distance:</label>
-        <input type="number" id="distance" name="distance" required>
-        <label for="stock_id">Stock ID:</label>
-        <input type="text" id="stock_id" name="stock_id" required>
-        <label for="image">Image:</label>
-        <input type="file" id="image" name="image" required>
-        <button type="submit">Add Listing</button>
-    </form>
+    {% for car in cars %}
+    <tr>
+        manufacturer = Car_manufacturer(manufacturer_name=input("Manufaacturer name:"))
+        bodystyle = Car_bodystyle(bodystyle_name=input("Body style name:"))
+        model = Car_model(
+            model_name=input("Car Name:"),
+            model_horsepower=input("Horsepower:"),
+            model_torque=input("Torque:"),
+            eco_rating=input("Eco rating:"),
+            safety_rating=input("Safety rating:"),
+            model_seats=input("Seats:"),
+        )
+        image = car_images(image=input("Image link:"), image_car=input("Image name:"))
+        stock = Car_stock(
+            manufacturer=input("Manufacturer name:"),
+            bodystyle=input("Body style name:"),
+            model=input("Car name:"),
+            year=datetime.strptime("2020-01-01", "%Y-%m-%d").date(),
+            car_price=input("Price:"),
+            distance=input("Distance:"),
+            image=image
+        )
+        db.session.add_all([manufacturer, bodystyle, model, image, stock])
+        db.session.commit()
+  
+    </tr>
+    {% endfor %}
+
 </body>
 
 
