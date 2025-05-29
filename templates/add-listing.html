@@ -1,0 +1,65 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Listing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"], input[type="number"], input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Listing</h1>
+    <form method="POST" action="/add-listing" enctype="multipart/form-data">
+        <label for="manufacturer">Manufacturer:</label>
+        <input type="text" id="manufacturer" name="manufacturer" required>
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model" required>
+        <label for="year">Year:</label>
+        <input type="number" id="year" name="year" required>
+        <label for="body_style">Body Style:</label>
+        <input type="text" id="body_style" name="body_style" required>
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required>
+        <label for="distance">Distance:</label>
+        <input type="number" id="distance" name="distance" required>
+        <label for="stock_id">Stock ID:</label>
+        <input type="text" id="stock_id" name="stock_id" required>
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image" required>
+        <button type="submit">Add Listing</button>
+    </form>
+</body>
+
+
+
+
+
+
+</html>

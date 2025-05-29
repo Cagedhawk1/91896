@@ -1,6 +1,6 @@
 from models import Car_manufacturer, Car_bodystyle, Car_model, Car_stock, car_images
 from datetime import datetime
-from flask import render_template
+from flask import Flask,g,render_template, request
 
 def register_routes(app, db):
 
@@ -9,11 +9,13 @@ def register_routes(app, db):
     @app.route("/")
     def home():
         return render_template("home.html")
-
+    
 
     @app.route("/contents")
     def contents():
-        return render_template("contents.html", db=db)
+        manufacturers = Car_manufacturer.query.all()
+        results = db.session.query(Car_manufacturer.manufacturer_id, Car_manufacturer.manufacturer_name).all()
+        return render_template("contents.html", results=results)
 
     #@app.route('/')
     #def index():
@@ -37,6 +39,35 @@ def register_routes(app, db):
                 return "No cars found in the database. <br><a href='/'>Back to home</a> <br><a href='/add-10-cars'>Add sample cars</a>"
             
             return render_template('cars_template.html', cars=cars)
+
+
+    @app.route('/add-listing')
+    def add_listing():
+        # Add a single sample car to the database
+        manufacturer = Car_manufacturer(manufacturer_name="Toyota")
+        bodystyle = Car_bodystyle(bodystyle_name="Sedan")
+        model = Car_model(
+            model_name="Camry",
+            model_horsepower=200,
+            model_torque=180,
+            eco_rating=8,
+            safety_rating=9,
+            model_seats=5
+        )
+        image = car_images(image="image_data", image_car="Camry_2020")
+        stock = Car_stock(
+            manufacturer=manufacturer,
+            bodystyle=bodystyle,
+            model=model,
+            year=datetime.strptime("2020-01-01", "%Y-%m-%d").date(),
+            car_price=25000,
+            distance=5000,
+            image=image
+        )
+        db.session.add_all([manufacturer, bodystyle, model, image, stock])
+        db.session.commit()
+        return "Sample data added! <br><a href='/contents'>Back to home</a>"
+    
 
 
 
