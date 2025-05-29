@@ -1,6 +1,6 @@
 from models import Car_manufacturer, Car_bodystyle, Car_model, Car_stock, car_images
 from datetime import datetime
-from flask import Flask,g,render_template, request
+from flask import Flask,g,render_template, request, redirect
 
 def register_routes(app, db):
 
@@ -13,17 +13,7 @@ def register_routes(app, db):
 
     @app.route("/contents")
     def contents():
-            cars = (
-                db.session.query(Car_stock)
-                .join(Car_manufacturer, Car_stock.manufacturer_id == Car_manufacturer.manufacturer_id)
-                .join(Car_bodystyle, Car_stock.bodystyle_id == Car_bodystyle.bodystyle_id)
-                .join(Car_model, Car_stock.model_id == Car_model.model_id)
-                .join(car_images, Car_stock.image_id == car_images.image_id)
-                .all()
-            )
-            if not cars:
-                return "No cars found in the database. <br><a href='/contents'>Back to home</a> <br><a href='/add-10-cars'>Add sample cars</a>"
-            
+
             return render_template("contents.html", cars=cars)
 
     #@app.route('/')
@@ -50,31 +40,50 @@ def register_routes(app, db):
             return render_template('cars_template.html', cars=cars)
 
 
-    @app.route('/add-listing')
+    @app.route('/add-listing', methods=['GET', 'POST'])
     def add_listing():
-        # Add a single sample car to the database
-        #manufacturer = Car_manufacturer(manufacturer_name=input("Manufaacturer name"))
-        #bodystyle = Car_bodystyle(bodystyle_name="Sedan")
-        #model = Car_model(
-            #model_name="Camry",
-            #model_horsepower=200,
-            #model_torque=180,
-            #eco_rating=8,
-            #safety_rating=9,
-            #model_seats=5
-        #)
-        #image = car_images(image="image_data", image_car="Camry_2020")
-        #stock = Car_stock(
-            #manufacturer=manufacturer,
-            #bodystyle=bodystyle,
-            #model=model,
-            #year=datetime.strptime("2020-01-01", "%Y-%m-%d").date(),
-            #car_price=25000,
-            #distance=5000,
-            #image=image
-        #)
-        #db.session.add_all([manufacturer, bodystyle, model, image, stock])
-        #db.session.commit()
+        if request.method == 'POST':
+            manufacturer_name = request.form['manufacturer']
+            bodystyle_name = request.form['bodystyle']
+            car_name = request.form['car_name']
+            horsepower = int(request.form['horsepower'])
+            torque = int(request.form['torque'])
+            eco_rating = int(request.form['eco_rating'])
+            safety_rating = int(request.form['safety_rating'])
+            seats = int(request.form['seats'])
+            year = datetime.strptime(request.form['year'], "%Y").date()  
+            price = float(request.form['price'])
+            distance = int(request.form['distance'])
+            image_data = request.files['image'].read()  
+
+            # Create data 
+            manufacturer = Car_manufacturer(manufacturer_name=manufacturer_name)
+            bodystyle = Car_bodystyle(bodystyle_name=bodystyle_name)
+            model = Car_model(
+                model_name=car_name,
+                model_horsepower=horsepower,
+                model_torque=torque,
+                eco_rating=eco_rating,
+                safety_rating=safety_rating,
+                model_seats=seats
+            )
+            image = car_images(image=image_data, image_car=f"{car_name}_{year.year}")
+            stock = Car_stock(
+                manufacturer=manufacturer,
+                bodystyle=bodystyle,
+                model=model,
+                year=year,
+                car_price=price,
+                distance=distance,
+                image=image
+            )
+
+            # Commit to database
+            db.session.add_all([manufacturer, bodystyle, model, image, stock])
+            db.session.commit()
+
+            return redirect('/contents')  
+
         return render_template("add-listing.html")
     
 
