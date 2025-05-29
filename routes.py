@@ -13,9 +13,18 @@ def register_routes(app, db):
 
     @app.route("/contents")
     def contents():
-        manufacturers = Car_manufacturer.query.all()
-        results = db.session.query(Car_manufacturer.manufacturer_id, Car_manufacturer.manufacturer_name).all()
-        return render_template("contents.html", results=results)
+            cars = (
+                db.session.query(Car_stock)
+                .join(Car_manufacturer, Car_stock.manufacturer_id == Car_manufacturer.manufacturer_id)
+                .join(Car_bodystyle, Car_stock.bodystyle_id == Car_bodystyle.bodystyle_id)
+                .join(Car_model, Car_stock.model_id == Car_model.model_id)
+                .join(car_images, Car_stock.image_id == car_images.image_id)
+                .all()
+            )
+            if not cars:
+                return "No cars found in the database. <br><a href='/contents'>Back to home</a> <br><a href='/add-10-cars'>Add sample cars</a>"
+            
+            return render_template("contents.html", cars=cars)
 
     #@app.route('/')
     #def index():
