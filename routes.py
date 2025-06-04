@@ -1,6 +1,7 @@
 from models import Car_manufacturer, Car_bodystyle, Car_model, Car_stock, car_images
 from datetime import datetime
 from flask import Flask,g,render_template, request, redirect
+import sqlite3
 
 def register_routes(app, db):
 
@@ -13,7 +14,31 @@ def register_routes(app, db):
 
     @app.route("/contents")
     def contents():
-            return render_template("contents.html", cars=cars)
+        query = request.args.get('query', '')
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        
+        if query:
+            cursor.execute('''
+                SELECT * FROM car_stock
+                JOIN car_manufacturer ON car_stock.manufacturer_id = car_manufacturer.manufacturer_id
+                JOIN car_body_style ON car_stock.body_style_id = car_body_style.body_style_id
+                JOIN car_model ON car_stock.model_id = car_model.model_id
+                JOIN car_images ON car_stock.image_id = car_images.image_id
+                WHERE car_manufacturer.manufacturer_name LIKE ? OR car_model.model_name LIKE ?
+                ''', ('%' + query + '%', '%' + query + '%'))
+        else:
+            cursor.execute('''
+                SELECT * FROM car_stock
+                JOIN car_manufacturer ON car_stock.manufacturer_id = car_manufacturer.manufacturer_id
+                JOIN car_body_style ON car_stock.body_style_id = car_body_style.body_style_id
+                JOIN car_model ON car_stock.model_id = car_model.model_id
+                JOIN car_images ON car_stock.image_id = car_images.image_id
+            ''')
+
+        results = cursor.fetchall()
+        conn.close()
+        return render_template("contents.html", cars=cars)
 
     #@app.route('/')
     #def index():
