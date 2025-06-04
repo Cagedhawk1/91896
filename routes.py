@@ -13,7 +13,6 @@ def register_routes(app, db):
 
     @app.route("/contents")
     def contents():
-
             return render_template("contents.html", cars=cars)
 
     #@app.route('/')
