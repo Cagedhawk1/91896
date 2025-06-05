@@ -15,14 +15,14 @@ def register_routes(app, db):
     @app.route("/contents")
     def contents():
         query = request.args.get('query', '')
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect('instance\database.db')
         cursor = conn.cursor()
         
         if query:
             cursor.execute('''
                 SELECT * FROM car_stock
                 JOIN car_manufacturer ON car_stock.manufacturer_id = car_manufacturer.manufacturer_id
-                JOIN car_body_style ON car_stock.body_style_id = car_body_style.body_style_id
+                JOIN car_bodystyle ON car_stock.bodystyle_id = car_bodystyle.bodystyle_id
                 JOIN car_model ON car_stock.model_id = car_model.model_id
                 JOIN car_images ON car_stock.image_id = car_images.image_id
                 WHERE car_manufacturer.manufacturer_name LIKE ? OR car_model.model_name LIKE ?
@@ -31,14 +31,14 @@ def register_routes(app, db):
             cursor.execute('''
                 SELECT * FROM car_stock
                 JOIN car_manufacturer ON car_stock.manufacturer_id = car_manufacturer.manufacturer_id
-                JOIN car_body_style ON car_stock.body_style_id = car_body_style.body_style_id
+                JOIN car_bodystyle ON car_stock.bodystyle_id = car_bodystyle.bodystyle_id
                 JOIN car_model ON car_stock.model_id = car_model.model_id
                 JOIN car_images ON car_stock.image_id = car_images.image_id
             ''')
 
         results = cursor.fetchall()
         conn.close()
-        return render_template("contents.html", cars=cars)
+        return render_template("contents.html", cars=results)
 
     #@app.route('/')
     #def index():

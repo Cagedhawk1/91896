@@ -64,14 +64,14 @@
             </tr>
         </thead>
         <tbody>
-            {% for car in results %}
+            {% for car in cars %}
             <tr>
                 <td><img src="{{ car.image }}" alt="{{ car.model }}"></td>
                 <td>{{ car.manufacturer }}</td>
                 <td>{{ car.model }}</td>
                 <td>{{ car.year }}</td>
                 <td>{{ car.body_style }}</td>
-                <td>{{ "%.2f" % car.price }}</td>
+                <td>{{ "%.2f" % car.car_price }}</td>
                 <td>{{ car.distance }}</td>
                 <td>{{ car.stock_id }}</td>
             </tr>
