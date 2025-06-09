@@ -1,29 +1,6 @@
-from flask import Flask,g,render_template, request
+from flask import Flask
 from models import db
 from routes import register_routes
-import sqlite3
-from sqlalchemy import create_engine
-
-
-app = Flask(__name__)
-
-DATABASE = 'southeys_autoworld_database.db'
-
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return db
-
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
-
-
-
-
 
 # Create Flask app
 app = Flask(__name__)
@@ -42,15 +19,8 @@ register_routes(app, db)
 with app.app_context():
     db.create_all()
 
-
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
-
-    #engine = create_engine('sqlite:///southeys_autoworld_database.db', echo=True)
-
-    
 
 
 # Add a single instance of the Car class to the session (Uncoment line below to add select cars)
@@ -87,5 +57,3 @@ if __name__ == "__main__":
 #with engine.connect() as connection:
     #result = connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
     #print(result.fetchall())
-
-    
