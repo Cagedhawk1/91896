@@ -14,7 +14,7 @@ def register_routes(app, db):
     @app.route('/contents')
     def contents():
         query = request.args.get('query', '')
-        conn = sqlite3.connect('instance/database.db')
+        conn = sqlite3.connect('database.db')
         cursor = conn.cursor()
 
         if query:
