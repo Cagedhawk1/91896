@@ -57,25 +57,19 @@
                 <th>Manufacturer</th>
                 <th>Model</th>
                 <th>Year</th>
-                <th>Body Style</th>
                 <th>Price</th>
                 <th>Distance</th>
-                <th>Stock ID</th>
             </tr>
         </thead>
         <tbody>
             {% for car in cars %}
             <tr>
-                <td><img src="{{ car.image }}" alt="{{ car.model }}"></td>
-                <td>{{ car.manufacturer }}</td>
-                <td>{{ car.model }}</td>
-                <td>{{ car.year }}</td>
-                <td>{{ car.body_style }}</td>
-                <td>{{ car.price }}</td>
-                <td>{{ car.horsepower }}</td>
-                <td>{{ car.torque }}</td>
-                <td>{{ car.distance }}</td>
-                <td>{{ car.stock_id }}</td>
+                <td><img src="{{ car[image_path] }}" alt="{{ car[model_name] }}"></td>
+                <td>{{ car[manufacturer_name] }}</td>
+                <td>{{ car[model_name] }}</td>
+                <td>{{ car[year] }}</td>
+                <td>{{ car[price] }}</td>
+                <td>{{ car[distance] }}</td>
             </tr>
             {% endfor %}
         </tbody>
