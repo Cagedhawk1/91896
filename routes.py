@@ -1,13 +1,50 @@
 from models import Car_manufacturer, Car_bodystyle, Car_model, Car_stock, car_images
 from datetime import datetime
-from flask import render_template
+from flask import Flask,g,render_template, request, redirect
+import sqlite3
 
 def register_routes(app, db):
-    @app.route('/')
-    def index():
+
+
+
+    @app.route("/")
+    def home():
+        return render_template("home.html")
+    
+
+    @app.route("/contents")
+    def contents():
+        query = request.args.get('query', '')
+        conn = sqlite3.connect('instance\database.db')
+        cursor = conn.cursor()
+        
+        if query:
+            cursor.execute('''
+                SELECT * FROM car_stock
+                JOIN car_manufacturer ON car_stock.manufacturer_id = car_manufacturer.manufacturer_id
+                JOIN car_bodystyle ON car_stock.bodystyle_id = car_bodystyle.bodystyle_id
+                JOIN car_model ON car_stock.model_id = car_model.model_id
+                JOIN car_images ON car_stock.image_id = car_images.image_id
+                WHERE car_manufacturer.manufacturer_name LIKE ? OR car_model.model_name LIKE ?
+                ''', ('%' + query + '%', '%' + query + '%'))
+        else:
+            cursor.execute('''
+                SELECT * FROM car_stock
+                JOIN car_manufacturer ON car_stock.manufacturer_id = car_manufacturer.manufacturer_id
+                JOIN car_bodystyle ON car_stock.bodystyle_id = car_bodystyle.bodystyle_id
+                JOIN car_model ON car_stock.model_id = car_model.model_id
+                JOIN car_images ON car_stock.image_id = car_images.image_id
+            ''')
+
+        results = cursor.fetchall()
+        conn.close()
+        return render_template("contents.html", cars=results)
+
+    #@app.route('/')
+    #def index():
         # Display the number of manufacturers in the database
-        manufacturers = Car_manufacturer.query.all()
-        return f"Found {len(manufacturers)} manufacturers in the database. <br><a href='/add-sample'>Add sample data</a> <br><a href='/add-10-cars'>Add 10 sample cars</a>"
+        #manufacturers = Car_manufacturer.query.all()
+        #return f"Found {len(manufacturers)} manufacturers in the database. <br><a href='/add-sample'>Add sample data</a> <br><a href='/add-10-cars'>Add 10 sample cars</a>"
 
     @app.route('/cars')
     def cars():
@@ -27,6 +64,52 @@ def register_routes(app, db):
             return render_template('cars_template.html', cars=cars)
 
 
+    @app.route('/add-listing', methods=['GET', 'POST'])
+    def add_listing():
+        if request.method == 'POST':
+            manufacturer_name = request.form['manufacturer']
+            bodystyle_name = request.form['bodystyle']
+            car_name = request.form['car_name']
+            horsepower = int(request.form['horsepower'])
+            torque = int(request.form['torque'])
+            eco_rating = int(request.form['eco_rating'])
+            safety_rating = int(request.form['safety_rating'])
+            seats = int(request.form['seats'])
+            year = datetime.strptime(request.form['year'], "%Y").date()  
+            price = float(request.form['price'])
+            distance = int(request.form['distance'])
+            image_data = request.files['image'].read()  
+
+            # Create data 
+            manufacturer = Car_manufacturer(manufacturer_name=manufacturer_name)
+            bodystyle = Car_bodystyle(bodystyle_name=bodystyle_name)
+            model = Car_model(
+                model_name=car_name,
+                model_horsepower=horsepower,
+                model_torque=torque,
+                eco_rating=eco_rating,
+                safety_rating=safety_rating,
+                model_seats=seats
+            )
+            image = car_images(image=image_data, image_car=f"{car_name}_{year.year}")
+            stock = Car_stock(
+                manufacturer=manufacturer,
+                bodystyle=bodystyle,
+                model=model,
+                year=year,
+                car_price=price,
+                distance=distance,
+                image=image
+            )
+
+            # Commit to database
+            db.session.add_all([manufacturer, bodystyle, model, image, stock])
+            db.session.commit()
+
+            return redirect('/contents')  
+
+        return render_template("add-listing.html")
+    
 
 
 
@@ -55,8 +138,8 @@ def register_routes(app, db):
         )
         db.session.add_all([manufacturer, bodystyle, model, image, stock])
         db.session.commit()
-        return "Sample data added! <br><a href='/'>Back to home</a>"
-
+        return "Sample data added! <br><a href='/contents'>Back to home</a>"
+    
     @app.route('/add-10-cars')
     def add_10_cars():
         # Check if manufacturers already exist
@@ -250,7 +333,7 @@ def register_routes(app, db):
                 model_torque=car_data["torque"],
                 eco_rating=car_data["eco_rating"],
                 safety_rating=car_data["safety_rating"],
-                model_seats=car_data["seats"]   
+                model_seats=car_data["seats"]
             )
             
             # Create image
@@ -278,4 +361,4 @@ def register_routes(app, db):
             db.session.add(stock)
 
         db.session.commit()
-        return "10 sample cars added successfully! <br><a href='/'>Back to home</a>"    
+        return "10 sample cars added successfully! <br><a href='/contents'>Back to home</a>"
