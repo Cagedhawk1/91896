@@ -3,6 +3,28 @@ from models import db
 from routes import register_routes
 import sqlite3
 from sqlalchemy import create_engine
+import os
+
+app = Flask(__name__)
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+db_path = os.path.join(BASE_DIR, 'instance', 'database.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+register_routes(app, db)
+
+if __name__ == "__main__":
+    # Ensure instance folder exists
+    os.makedirs(os.path.join(BASE_DIR, 'instance'), exist_ok=True)
+    with app.app_context():
+        db.create_all()
+    app.run(debug=True)
+
+
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+db_path = os.path.join(BASE_DIR, 'instance', 'database.db')
+
+conn = sqlite3.connect(db_path)
 
 
 app = Flask(__name__)
@@ -29,7 +51,7 @@ def close_connection(exception):
 app = Flask(__name__)
 
 # Configure the database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize the database with the app
