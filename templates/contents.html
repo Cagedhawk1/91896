@@ -67,7 +67,7 @@
             <tr>
                 <td>
                     {% if car.image %}
-                        <img src="{{ url_for('serve_image', image_id=car.image.image_id) }}" width="300">
+                        <img src="{{ url_for('serve_image', image_id=car.image.image_id) }}" width="500">
                     {% else %}
                         No image
                     {% endif %}
