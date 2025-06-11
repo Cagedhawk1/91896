@@ -10,7 +10,6 @@ def register_routes(app, db):
     def contents():
         query = request.args.get('query', '')
 
-        # Example query using SQLAlchemy to join all tables like your SQL did
         cars = db.session.query(Car_stock) \
             .join(Car_manufacturer) \
             .join(Car_bodystyle) \
@@ -33,11 +32,9 @@ def register_routes(app, db):
         cars = cars.all()
         return render_template('contents.html', cars=cars)
 
-    #@app.route('/')
-    #def index():
-        # Display the number of manufacturers in the database
-        #manufacturers = Car_manufacturer.query.all()
-        #return f"Found {len(manufacturers)} manufacturers in the database. <br><a href='/add-sample'>Add sample data</a> <br><a href='/add-10-cars'>Add 10 sample cars</a>"
+    @app.route('/')
+    def home():
+        return render_template('home.html')
 
     @app.route('/cars')
     def cars():
