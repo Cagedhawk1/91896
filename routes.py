@@ -2,42 +2,36 @@ from models import Car_manufacturer, Car_bodystyle, Car_model, Car_stock, car_im
 from datetime import datetime
 from flask import Flask,g,render_template, request, redirect
 import sqlite3
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import *
 
 def register_routes(app, db):
-
-
-
-    @app.route("/")
-    def home():
-        return render_template("home.html")
-    
     @app.route('/contents')
     def contents():
         query = request.args.get('query', '')
-        conn = sqlite3.connect('database.db')
-        cursor = conn.cursor()
 
+        # Example query using SQLAlchemy to join all tables like your SQL did
+        cars = db.session.query(Car_stock) \
+            .join(Car_manufacturer) \
+            .join(Car_bodystyle) \
+            .join(Car_model) \
+            .join(car_images) \
+            .options(
+                joinedload(Car_stock.manufacturer),
+                joinedload(Car_stock.bodystyle),
+                joinedload(Car_stock.model),
+                joinedload(Car_stock.image)
+            )
+
+        # Simple filter on manufacturer or model name, just as an example
         if query:
-            cursor.execute('''
-                SELECT * FROM car_stock
-                JOIN car_manufacturer ON car_stock.manufacturer_id = car_manufacturer.manufacturer_id
-                JOIN car_bodystyle ON car_stock.bodystyle_id = car_bodystyle.bodystyle_id
-                JOIN car_model ON car_stock.model_id = car_model.model_id
-                JOIN car_images ON car_stock.image_id = car_images.image_id
-                WHERE car_manufacturer.manufacturer_name LIKE ? OR car_model.model_name LIKE ?
-            ''', ('%' + query + '%', '%' + query + '%'))
-        else:
-            cursor.execute('''
-                SELECT * FROM car_stock
-                JOIN car_manufacturer ON car_stock.manufacturer_id = car_manufacturer.manufacturer_id
-                JOIN car_bodystyle ON car_stock.bodystyle_id = car_bodystyle.bodystyle_id
-                JOIN car_model ON car_stock.model_id = car_model.model_id
-                JOIN car_images ON car_stock.image_id = car_images.image_id
-            ''')
-
-        results = cursor.fetchall()
-        conn.close()
-        return render_template('contents.html', cars=results)
+            cars = cars.filter(
+                (Car_manufacturer.manufacturer_name.like(f'%{query}%')) |
+                (Car_model.model_name.like(f'%{query}%'))
+            )
+        
+        cars = cars.all()
+        return render_template('contents.html', cars=cars)
 
     #@app.route('/')
     #def index():
