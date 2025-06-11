@@ -62,16 +62,22 @@
             </tr>
         </thead>
         <tbody>
-            {% for car in cars %}
+        {% for car in cars %}
             <tr>
-                <td><img src="{{ car[image_path] }}" alt="{{ car[model_name] }}"></td>
-                <td>{{ car[manufacturer_name] }}</td>
-                <td>{{ car[model_name] }}</td>
-                <td>{{ car[year] }}</td>
-                <td>{{ car[price] }}</td>
-                <td>{{ car[distance] }}</td>
+                <td>
+                    {% if car.image %}
+                        <img src="{{ url_for('serve_image', image_id=car.image.image_id) }}" width="120">
+                    {% else %}
+                        No image
+                    {% endif %}
+                </td>
+                <td>{{ car.manufacturer.manufacturer_name }}</td>
+                <td>{{ car.model.model_name }}</td>
+                <td>{{ car.year }}</td>
+                <td>{{ car.car_price }}</td>
+                <td>{{ car.distance }}</td>
             </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
 

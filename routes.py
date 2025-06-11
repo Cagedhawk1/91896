@@ -1,9 +1,10 @@
 from models import Car_manufacturer, Car_bodystyle, Car_model, Car_stock, car_images
 from datetime import datetime
-from flask import Flask,g,render_template, request, redirect
+from flask import Flask,g,render_template, request, redirect, send_file, abort
 import sqlite3
 from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import *
+from io import BytesIO
 
 def register_routes(app, db):
     @app.route('/contents')
@@ -32,6 +33,13 @@ def register_routes(app, db):
         cars = cars.all()
         return render_template('contents.html', cars=cars)
 
+    @app.route('/images/<int:image_id>')
+    def serve_image(image_id):
+        img = db.session.get(car_images, image_id)
+        if not img or not img.image:
+            abort(404)
+        return send_file(BytesIO(img.image), mimetype='image/jpeg')
+    
     @app.route('/')
     def home():
         return render_template('home.html')
