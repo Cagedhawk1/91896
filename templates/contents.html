@@ -60,22 +60,28 @@
             </tr>
         </thead>
         <tbody>
-        {% for car in cars %}
-            <tr>
-                <td>
-                    {% if car.image %}
-                        <img src="{{ url_for('serve_image', image_id=car.image.image_id) }}" width="570">
-                    {% else %}
-                        No image
-                    {% endif %}
-                </td>
-                <td>{{ car.manufacturer.manufacturer_name }}</td>
-                <td>{{ car.model.model_name }}</td>
-                <td>{{ car.year }}</td>
-                <td>{{ car.car_price }}</td>
-                <td>{{ car.distance }}</td>
-            </tr>
-        {% endfor %}
+            {% if cars|length == 0 %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">No cars found</td>
+                </tr>
+            {% else %}
+                {% for car in cars %}
+                    <tr>
+                        <td>
+                            {% if car.image %}
+                                <img src="{{ url_for('serve_image', image_id=car.image.image_id) }}" width="570">
+                            {% else %}
+                                No image
+                            {% endif %}
+                        </td>
+                        <td>{{ car.manufacturer.manufacturer_name }}</td>
+                        <td>{{ car.model.model_name }}</td>
+                        <td>{{ car.year }}</td>
+                        <td>{{ car.car_price }}</td>
+                        <td>{{ car.distance }}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
         </tbody>
     </table>
 
