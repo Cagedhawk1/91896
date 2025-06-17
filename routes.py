@@ -33,7 +33,7 @@ def register_routes(app, db):
         cars = cars.all()
         return render_template('contents.html', cars=cars)
 
-    # Serve image from the database 
+    # Gets image from the database 
     @app.route('/images/<int:image_id>')
     def serve_image(image_id):
         img = db.session.get(car_images, image_id)
@@ -46,22 +46,24 @@ def register_routes(app, db):
     def home():
         return render_template('home.html')
 
-    @app.route('/cars')
-    def cars():
+    # OLD DEV FUNCTION
+    
+    #@app.route('/cars')
+    #def cars():
             # Get all cars with their related information
-            cars = (
-                db.session.query(Car_stock)
-                .join(Car_manufacturer, Car_stock.manufacturer_id == Car_manufacturer.manufacturer_id)
-                .join(Car_bodystyle, Car_stock.bodystyle_id == Car_bodystyle.bodystyle_id)
-                .join(Car_model, Car_stock.model_id == Car_model.model_id)
-                .join(car_images, Car_stock.image_id == car_images.image_id)
-                .all()
-            )
+            #cars = (
+                #db.session.query(Car_stock)
+                #.join(Car_manufacturer, Car_stock.manufacturer_id == Car_manufacturer.manufacturer_id)
+                #.join(Car_bodystyle, Car_stock.bodystyle_id == Car_bodystyle.bodystyle_id)
+                #.join(Car_model, Car_stock.model_id == Car_model.model_id)
+                #.join(car_images, Car_stock.image_id == car_images.image_id)
+                #.all()
+            #)
             
-            if not cars:
-                return "No cars found in the database. <br><a href='/'>Back to home</a> <br><a href='/add-10-cars'>Add sample cars</a>"
+            #if not cars:
+                #return "No cars found in the database. <br><a href='/'>Back to home</a> <br><a href='/add-10-cars'>Add sample cars</a>"
             
-            return render_template('cars_template.html', cars=cars)
+            #return render_template('cars_template.html', cars=cars)
 
 
     @app.route('/add-listing', methods=['GET', 'POST'])
