@@ -10,7 +10,7 @@ def register_routes(app, db):
     @app.route('/contents')
     def contents():
         query = request.args.get('query', '')
-
+        #Joins to get all cars with their related information
         cars = db.session.query(Car_stock) \
             .join(Car_manufacturer) \
             .join(Car_bodystyle) \
@@ -33,6 +33,7 @@ def register_routes(app, db):
         cars = cars.all()
         return render_template('contents.html', cars=cars)
 
+    # Serve image from the database 
     @app.route('/images/<int:image_id>')
     def serve_image(image_id):
         img = db.session.get(car_images, image_id)
@@ -40,6 +41,7 @@ def register_routes(app, db):
             abort(404)
         return send_file(BytesIO(img.image), mimetype='image/jpeg')
     
+    # Creates home page
     @app.route('/')
     def home():
         return render_template('home.html')
@@ -64,6 +66,7 @@ def register_routes(app, db):
 
     @app.route('/add-listing', methods=['GET', 'POST'])
     def add_listing():
+        # Render the form to add a new car listing
         if request.method == 'POST':
             manufacturer_name = request.form['manufacturer']
             bodystyle_name = request.form['bodystyle']
@@ -110,7 +113,7 @@ def register_routes(app, db):
     
 
 
-
+    # Dev command for testing
     @app.route('/add-sample')
     def add_sample():
         # Add a single sample car to the database
@@ -138,6 +141,7 @@ def register_routes(app, db):
         db.session.commit()
         return "Sample data added! <br><a href='/contents'>Back to home</a>"
     
+    # Dev command for testing
     @app.route('/add-10-cars')
     def add_10_cars():
         # Check if manufacturers already exist
@@ -175,7 +179,7 @@ def register_routes(app, db):
         # Commit manufacturers and bodystyles first
         db.session.commit()
         
-        # Create 10 cars with complete data
+        # Create 10 cars 
         cars_data = [
             # Toyota Cars
             {

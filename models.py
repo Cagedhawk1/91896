@@ -4,7 +4,9 @@ from datetime import datetime
 db = SQLAlchemy()
 
 
-
+# Creates the database
+ 
+# Bodystyle table
 class Car_bodystyle(db.Model):
     __tablename__ = 'car_bodystyle'
     bodystyle_id = db.Column(db.Integer, primary_key=True)
@@ -13,6 +15,7 @@ class Car_bodystyle(db.Model):
     def __repr__(self):
         return f'<Car_bodystyle {self.bodystyle_name}>'
 
+# Manufacturer table
 class Car_manufacturer(db.Model):
     __tablename__ = 'car_manufacturer'
     manufacturer_id = db.Column(db.Integer, primary_key=True)
@@ -21,6 +24,7 @@ class Car_manufacturer(db.Model):
     def __repr__(self):
         return f'<Car_manufacturer {self.manufacturer_name}>'
 
+# Model table
 class Car_model(db.Model):
     __tablename__ = 'car_model'
     model_id = db.Column(db.Integer, primary_key=True)
@@ -34,6 +38,7 @@ class Car_model(db.Model):
     def __repr__(self):
         return f'<Car_model {self.model_name}>'
 
+# Image table
 class car_images(db.Model):
     __tablename__ = 'car_images'
     image_id = db.Column(db.Integer, primary_key=True)
@@ -43,6 +48,7 @@ class car_images(db.Model):
     def __repr__(self):
         return f'<car_images {self.image_id}>'
 
+# Stock table
 class Car_stock(db.Model):
     __tablename__ = 'car_stock'
     stock_id = db.Column(db.Integer, primary_key=True)

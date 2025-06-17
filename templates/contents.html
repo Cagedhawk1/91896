@@ -47,6 +47,8 @@
         <button type="submit">Back</button>
     </form>
 
+    
+    <!-- Table to display the car inventory -->
     <h1>Car Inventory</h1>
     <table>
         <thead>
@@ -59,6 +61,7 @@
                 <th>Distance</th>
             </tr>
         </thead>
+        <!-- Python imbeded into HTML to querry the database -->
         <tbody>
             {% if cars|length == 0 %}
                 <tr>
