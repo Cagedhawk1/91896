@@ -19,6 +19,8 @@ Dependency installation
 OPTION A: one-by-one
 To install Flask, if not already installed
 
+pip install gunicorn
+
 pip install flask
 OPTION B: all-in-one
 To install all dependencies frOm a requirements file, if provided NB: If you don't have a requirements file, see 'Extra tasks' below for how to create one
